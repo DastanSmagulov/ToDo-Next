@@ -6,9 +6,9 @@ interface TaskProps {
   task: ITask;
 }
 
-const ToDo: React.FC<TaskProps> = ()=>{
+const ToDo: React.FC<TaskProps> = ({task})=>{
     return(
-        <h1>Task</h1>
+        <h1>{task.text}</h1>
     )
 }
 export default ToDo;

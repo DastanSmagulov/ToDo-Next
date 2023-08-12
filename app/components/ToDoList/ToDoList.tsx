@@ -1,12 +1,14 @@
 import ToDo from "../ToDo/ToDo"
 import { ITask } from "@/types/tasks";
 
-interface ToDoListProps {
+interface TodoListProps {
   tasks: ITask[];
 }
 
-const ToDoList: React.FC<ToDoListProps> = ({tasks}) => {
-  console.log(tasks)
+const ToDoList: React.FC<TodoListProps> = ({ tasks }) => {
+  if (!tasks || tasks.length === 0) {
+    return <p>No tasks available.</p>;
+  }
   return (
     <div className="overflow-x-auto">
       <table className="table w-full">
@@ -19,8 +21,8 @@ const ToDoList: React.FC<ToDoListProps> = ({tasks}) => {
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <ToDo key={task.id} task={task} />
-          ))} 
+            <h1 key={task.id}>{task.attributes.text}</h1>
+          ))}
         </tbody>
       </table>
     </div>

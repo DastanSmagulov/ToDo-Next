@@ -1,5 +1,5 @@
 interface ITaskAttributes {
-  text: string;
+  toDoText: string;
 }
 
 interface ITask {
@@ -11,4 +11,4 @@ interface ITaskResponse {
   data: ITask[];
 }
 
-export type { ITask, ITaskResponse };
+export type { ITask, ITaskResponse, ITaskAttributes };

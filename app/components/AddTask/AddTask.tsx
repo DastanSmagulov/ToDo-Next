@@ -4,6 +4,7 @@ import Modal from "../Modal/Modal.tsx"
 import { FormEventHandler, useState } from "react";
 import { addTodo } from "@/api";
 import { useRouter } from "next/navigation";
+import { ITask, ITaskAttributes } from "@/types/tasks.ts";
 import { v4 as uuidv4 } from "uuid";
  
 const AddTask = () =>{
@@ -15,10 +16,10 @@ const AddTask = () =>{
       e
     ) => {
       e.preventDefault();
-      await addTodo({
-        id: uuidv4(),
-        text: newTaskValue,
-      });
+       const newTask: ITaskAttributes = {
+           toDoText: newTaskValue,
+       };
+      const addedTask = await addTodo(newTask);
       setNewTaskValue("");
       setModalOpen(false);
       router.refresh();

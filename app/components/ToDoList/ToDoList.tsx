@@ -21,7 +21,7 @@ const ToDoList: React.FC<TodoListProps> = ({ tasks }) => {
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <h1 key={task.id}>{task.attributes.text}</h1>
+            <ToDo key={task.id} task={task} />
           ))}
         </tbody>
       </table>

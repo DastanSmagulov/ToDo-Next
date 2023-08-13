@@ -1,7 +1,6 @@
 import axios from "axios"
+import { ITask, ITaskAttributes } from "./types/tasks";
 const baseUrl = "http://localhost:1337/api/to-dos";
-import { ITask } from "./types/tasks";
-
 // const getAllToDos = async () =>
 //   await axios
 //     .get("http://localhost:1337/api/to-dos")
@@ -11,50 +10,25 @@ import { ITask } from "./types/tasks";
 
 export async function fetchTasks() {
   try {
-    const response = await axios.get("http://localhost:1337/api/to-dos");
-    const tasks = response.data.data; // Extract the data property
+    const response = await axios.get(baseUrl);
+    const tasks = response.data.data;
     return tasks;
   } catch (error) {
-    console.error("Error fetching tasks:", error);
+    console.error('Error fetching tasks:', error);
     return [];
   }
 }
 
-export async function getStaticProps() {
-  const tasks = await fetchTasks();
-  return {
-    props: {
-      tasks,
-    },
-  };
-}
-
-export const addTodo = async (todo: ITask): Promise<ITask> => {
-  const res = await fetch(`${baseUrl}/tasks`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(todo),
-  });
-  const newTodo = await res.json();
-  return newTodo;
+export const addTodo = async (todo: ITaskAttributes): Promise<ITask> => {
+  const res = await axios.post<ITask>(baseUrl, { attributes: todo });
+  return res.data;
 };
 
 export const editTodo = async (todo: ITask): Promise<ITask> => {
-  const res = await fetch(`${baseUrl}/tasks/${todo.id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(todo),
-  });
-  const updatedTodo = await res.json();
-  return updatedTodo;
+  const res = await axios.put<ITask>(`${baseUrl}/${todo.id}`, todo.attributes);
+  return res.data;
 };
 
-export const deleteTodo = async (id: string): Promise<void> => {
-  await fetch(`${baseUrl}/tasks/${id}`, {
-    method: "DELETE",
-  });
+export const deleteTodo = async (id: number): Promise<void> => {
+  await axios.delete(`${baseUrl}/${id}`);
 };
